@@ -163,4 +163,5 @@ if ((send(_socket_, msg, len, 0)) < 0) {
 	EXITONERROR("cwrite");
 }
 ```
-
+## Comments
+I have not included my full solution or made my repository for this project public since it is a current project at the University and I do not want to aid plaigarism. I have shared this in order to show the process in which a two computers communicate over the network, and how threading is performed, in C++.
