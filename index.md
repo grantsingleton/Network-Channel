@@ -129,5 +129,38 @@ if (_side == SERVER_SIDE)
 	}
 ```
 
-The getaddrinfo() function return a struct of connection info that is used by bind() and connect(). A listener socket is declared, to be used by bind() and accept(). Bind() assigns the Sockets file descriptor to the address info. Listen() sets the listener Socket to be passive, so that it can be used to receive incoming connections. Accept() is the function that connects to the client. A file descriptor is returned from accept() which is the communication channel between to connected parties. Next, the server receives its first message fromt the client (using recv()) which contains the number of threads that the client wants to connect. The server sends a message back to the client, confirming that the message has been receieved, then uses that number in the for loop which will establish all of the connections. In this loop, the server waits for a connection, and once received, puts the file descriptor for that socket into a vector which is used in the main function to create server threads. 
+The getaddrinfo() function returns a struct of connection info that is used by bind() and connect(). A listener socket is declared, to be used by bind() and accept(). Bind() assigns the Sockets file descriptor to the address info. Listen() sets the listener Socket to be passive, so that it can be used to receive incoming connections. Accept() is the function that connects to the client. A file descriptor is returned from accept() which is the communication channel between to connected parties. Next, the server receives its first message fromt the client (using recv()) which contains the number of threads that the client wants to connect. The server sends a message back to the client, confirming that the message has been receieved, then uses that number in the for loop which will establish all of the connections. In this loop, the server waits for a connection, and once received, puts the file descriptor for that socket into a vector which is used in the main function to create server threads.
+
+## Process Loop
+
+After the connections are made with all of the client threads, each server thread enter a process loop where it receieves data requests from the client. The server threads access the data, and send it to the client. When the client thread is complete, it sends a quit message to the server thread, and the server thread exits the process loop and joins the main function. 
+
+## Read and Write
+
+After the client connects to the server, all communication is done using a read and write function defined in the Network Request Channel class. 
+
+### Read
+```
+ssize_t recv(int sockfd, void *buf, size_t len, int flags);
+```
+The recv function is a Linux function used to receieve a message from the other end of a Socket connection. The
+*sockfd* argument is the file descriptor of the Socket. The *buf* argument is the buffer that will be filled with the data transmitted by the other side. *len* is the size of the message received. I implement it here:
+```
+if ((byte_count = recv(_socket_, buf, MAX_MESSAGE, 0)) < 0) {
+	perror("Error: receieve failure");
+	exit(1);
+}
+```
+
+### Write
+```
+ssize_t send(int sockfd, const void *buf, size_t len, int flags);
+```
+The send function is the Linux function used to send a message to the other end of the Socket connection. The *buf* in the send function if filled with the data to be sent to the other side. I implement it here:
+
+```
+if ((send(_socket_, msg, len, 0)) < 0) {
+	EXITONERROR("cwrite");
+}
+```
 
