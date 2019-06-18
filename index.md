@@ -163,5 +163,21 @@ if ((send(_socket_, msg, len, 0)) < 0) {
 	EXITONERROR("cwrite");
 }
 ```
+
+## Threading 
+Threading is used in any modern program that has processes which can be performed in parallel. Threading can be easily explained with a real world example. Imagine that a builder needs to sheetrock the walls in a house, and install a new roof on that same house. If he is working alone, he will complete one of those tasks, and then complete the other. While he is working on the roof, nothing is being accomplished with the walls and vice versa. That is an example of a synchronous program, no threading. On the other hand, imagine he has two teams, one team works on the roof while the other does sheetrock. Two tasks are now being accomplished in parallel. He is threading! Needless to say, threading speeds up a program. Not all programs can be threaded though. Any process that must occur sequentially cannot be threaded. This would be synonomous to a builder mistakenly trying to install a toilet before the plumbing is finished. The plumbing must come before the toilet. Threading is performed on both the client and server side in this program. The client creates a user defined number of threads which send data request messages to the server. They also receieve the data back from the server and place the data in a file or histogram depending on what the user is requesting. Here are the Linux functions I use in this program to perform threading:
+
+### Create Thread
+```
+int pthread_create(pthread_t *thread, const pthread_attr_t *attr, void *(*start_routine) (void *), void *arg);
+```
+This function creates a new thread and called the *start_routine* function. This is the function that the thread runs. Each thread runs independant of the program which called it, but it has all the information that the calling program had before the thread was called.
+
+### Join Thread
+It is imperitave that the threads join back to the main program once they are done working. Threads operate independantly of the program that called them, so this function is how we know that they are done with the task appointed to them. 
+```
+int pthread_join(pthread_t thread, void **retval);
+```
+
 ## Comments
 I have not included my full solution or made my repository for this project public since it is a current project at the University and I do not want to aid plaigarism. I have shared this in order to show the process in which a two computers communicate over the network, and how threading is performed, in C++.
