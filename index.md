@@ -1,6 +1,10 @@
 ## Description
 
-In this program, a client is requesting data from a server over the network. Data request and retrieval is optimized by threading.  
+In this program, a client is requesting data from a server over the network. Data request and retrieval is optimized by threading.
+
+## Tools
+* Threading
+* Socket Programming
 
 ### Main Server Function
 In the main function for the server, the Port is determined by the user and the IP address will be localhost. The constructor for the Network Request Channel is called, which builds a vector of file descriptors for each client thread that connects to it. A thread is called for each connection between the client and server. The main function passes each thread to the handle_process_loop function where that server thread will wait for messages from the client until a quit message is receieved. When a quit message is receieved, the socket will return from the handle_process_loop function and join back to the main program. This main function will wait until all threads have joined, before it terminates. 
