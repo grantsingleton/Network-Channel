@@ -3,8 +3,8 @@
 In this program, a client is requesting data from a server over the network. Data request and retrieval is optimized by threading.
 
 ## Tools
-* Threading
-* Socket Programming
+* Parallel Processes (Threading)
+* Network Communication (Sockets)
 
 ## Implementation
 
