@@ -186,6 +186,9 @@ int pthread_join(pthread_t thread, void **retval);
 ```
 
 ## Graph
+
+The following graph represent the number of threads versus the speed of data retrieval in seconds. There is an approximately 2,000% increase in speed from 1 thread to 30. Other factors besides simply the number of threads are going to factor into the speed of the program. With more data points to be collected and a larger bounded buffer size we would see the trend continue with more threads accordingly. It is important to understand what the bottlenecks in a program are, in order to optimize it. 
+
 ![graph](./graph.png)
 
 ## Comments
