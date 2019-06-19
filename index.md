@@ -185,5 +185,8 @@ It is imperitave that the threads join back to the main program once they are do
 int pthread_join(pthread_t thread, void **retval);
 ```
 
+## Graph
+![graph](./graph.png)
+
 ## Comments
 I have not included my full solution or made my repository for this project public since it is a current project at the University and I do not want to aid plaigarism. I have shared this in order to show the process in which a two computers communicate over the network, and how threading is performed, in C++.
