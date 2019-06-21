@@ -10,7 +10,8 @@ In this program, a client is requesting data from a server over the network. Dat
 
 ### Main Server Function
 In the main function for the server, the Port is determined by the user and the IP address will be localhost. The constructor for the Network Request Channel is called, which builds a vector of file descriptors for each client thread that connects to it. A thread is called for each connection between the client and server. The main function passes each thread to the handle_process_loop function where that server thread will wait for messages from the client until a quit message is receieved. When a quit message is receieved, the socket will return from the handle_process_loop function and join back to the main program. This main function will wait until all threads have joined, before it terminates. 
-```
+
+```java
 int main(int argc, char *argv[]) {
 	string port;
 	string IP;
@@ -55,7 +56,7 @@ int main(int argc, char *argv[]) {
 
 Here is the Network Request Channel Constructor for the server side:
 
-```
+```java
 if (_side == SERVER_SIDE)
 	{
 		//set flags (localhost for server)
@@ -146,12 +147,14 @@ After the connections are made with all of the client threads, each server threa
 After the client connects to the server, all communication is done using a read and write function defined in the Network Request Channel class. 
 
 ### Read
-```
+
+```java
 ssize_t recv(int sockfd, void *buf, size_t len, int flags);
 ```
 The recv function is a Linux function used to receieve a message from the other end of a Socket connection. The
 *sockfd* argument is the file descriptor of the Socket. The *buf* argument is the buffer that will be filled with the data transmitted by the other side. *len* is the size of the message received. I implement it here:
-```
+
+```java
 if ((byte_count = recv(_socket_, buf, MAX_MESSAGE, 0)) < 0) {
 	perror("Error: receieve failure");
 	exit(1);
@@ -159,12 +162,13 @@ if ((byte_count = recv(_socket_, buf, MAX_MESSAGE, 0)) < 0) {
 ```
 
 ### Write
-```
+
+```java
 ssize_t send(int sockfd, const void *buf, size_t len, int flags);
 ```
 The send function is the Linux function used to send a message to the other end of the Socket connection. The *buf* in the send function if filled with the data to be sent to the other side. I implement it here:
 
-```
+```java
 if ((send(_socket_, msg, len, 0)) < 0) {
 	EXITONERROR("cwrite");
 }
@@ -174,14 +178,16 @@ if ((send(_socket_, msg, len, 0)) < 0) {
 Threading is used in any modern program that has processes which can be performed in parallel. Threading can be easily explained with a real world example. Imagine that a builder needs to sheetrock the walls in a house, and install a new roof on that same house. If he is working alone, he will complete one of those tasks, and then complete the other. While he is working on the roof, nothing is being accomplished with the walls and vice versa. That is an example of a synchronous program, no threading. On the other hand, imagine he has two teams, one team works on the roof while the other does sheetrock. Two tasks are now being accomplished in parallel. He is threading! Needless to say, threading speeds up a program. Not all programs can be threaded though. Any process that must occur sequentially cannot be threaded. This would be synonomous to a builder mistakenly trying to install a toilet before the plumbing is finished. The plumbing must come before the toilet. Threading is performed on both the client and server side in this program. The client creates a user defined number of threads which send data request messages to the server. They also receieve the data back from the server and place the data in a file or histogram depending on what the user is requesting. Here are the Linux functions I use in this program to perform threading:
 
 ### Create Thread
-```
+
+```java
 int pthread_create(pthread_t *thread, const pthread_attr_t *attr, void *(*start_routine) (void *), void *arg);
 ```
 This function creates a new thread and called the *start_routine* function. This is the function that the thread runs. Each thread runs independant of the program which called it, but it has all the information that the calling program had before the thread was called.
 
 ### Join Thread
 It is imperitave that the threads join back to the main program once they are done working. Threads operate independantly of the program that called them, so this function is how we know that they are done with the task appointed to them. 
-```
+
+```java
 int pthread_join(pthread_t thread, void **retval);
 ```
 
